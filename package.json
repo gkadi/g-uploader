@@ -1,6 +1,6 @@
 {
-  "name": "huge-uploader",
-  "version": "1.0.6",
+  "name": "g-uploader",
+  "version": "1.0.7",
   "description": "Module to handle huge file uploads by chunking them in the browser. Resumable, fault tolerent, offline aware, mobile ready.",
   "main": "lib/index.js",
   "module": "src/index.js",
@@ -10,7 +10,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Buzut/huge-uploader.git"
+    "url": "https://github.com/gkadi/g-uploader.git"
   },
   "keywords": [
     "upload",
@@ -23,7 +23,7 @@
     "fault tolerent",
     "file api"
   ],
-  "author": "Buzut (buzut.net)",
+  "author": "GKadi",
   "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/Buzut/huge-uploader/issues"

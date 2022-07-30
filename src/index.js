@@ -9,7 +9,6 @@ class HugeUploader {
         this.chunkSize = params.chunkSize || 10;
         this.retries = params.retries || 5;
         this.delayBeforeRetry = params.delayBeforeRetry || 5;
-
         this.start = 0;
         this.chunk = null;
         this.chunkCount = 0;
@@ -17,13 +16,10 @@ class HugeUploader {
         this.retriesCount = 0;
         this.offline = false;
         this.paused = false;
-
         this.headers['uploader-file-id'] = this._uniqid(this.file);
         this.headers['uploader-chunks-total'] = this.totalChunks;
-
         this._reader = new FileReader();
         this._eventTarget = new EventTarget();
-
         this._validateParams();
         this._sendChunks();
 
@@ -127,12 +123,9 @@ class HugeUploader {
         .then((res) => {
             if (res.status === 200 || res.status === 201 || res.status === 204) {
                 if (++this.chunkCount < this.totalChunks) this._sendChunks();
-                else {
-                  res.text().then(body => {
-                    this._eventTarget.dispatchEvent(new CustomEvent('finish', { body }));
-                  })
+                else{
+                    this._eventTarget.dispatchEvent(new CustomEvent('finish', {detail:res.statusText}));
                 }
-
                 const percentProgress = Math.round((100 / this.totalChunks) * this.chunkCount);
                 this._eventTarget.dispatchEvent(new CustomEvent('progress', { detail: percentProgress }));
             }
@@ -145,7 +138,7 @@ class HugeUploader {
 
             else {
                 if (this.paused || this.offline) return;
-                this._eventTarget.dispatchEvent(new CustomEvent('error', { detail: res }));
+                this._eventTarget.dispatchEvent(new CustomEvent('error', { detail: `Server responded with ${res.status}. Stopping upload` }));
             }
         })
         .catch((err) => {
